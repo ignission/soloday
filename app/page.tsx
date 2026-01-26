@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { TodayWeekView } from "@/components/calendar/TodayWeekView";
 import { css } from "@/styled-system/css";
 
 /**
@@ -15,50 +16,88 @@ export default function HomePage() {
 				minHeight: "100vh",
 				display: "flex",
 				flexDirection: "column",
-				alignItems: "center",
-				justifyContent: "center",
-				gap: "4",
-				p: "6",
+				background:
+					"linear-gradient(180deg, #faf8f5 0%, #f5f0e8 50%, #ebe5d9 100%)",
 			})}
 		>
-			{/* ミーアキャットロゴ */}
-			<Image
-				src="/icons/meerkat-celebration.svg"
-				alt="SoloDay"
-				width={96}
-				height={96}
-				className={css({ width: "24", height: "24" })}
-			/>
-
-			<h1 className={css({ fontSize: "3xl", fontWeight: "bold" })}>
-				SoloDayへようこそ
-			</h1>
-
-			<p
+			{/* ヘッダー: ミーアキャットロゴとタイトル（コンパクト・横並び） */}
+			<header
 				className={css({
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					gap: "3",
+					py: "3",
+					px: "4",
+					borderBottom: "1px solid",
+					borderColor: "sand.4",
+					backgroundColor: "rgba(255, 255, 255, 0.6)",
+					backdropFilter: "blur(8px)",
+				})}
+			>
+				<Image
+					src="/icons/meerkat-celebration.svg"
+					alt="SoloDay"
+					width={40}
+					height={40}
+					className={css({ width: "10", height: "10" })}
+				/>
+
+				<div
+					className={css({
+						display: "flex",
+						alignItems: "baseline",
+						gap: "2",
+					})}
+				>
+					<h1
+						className={css({
+							fontSize: "xl",
+							fontWeight: "bold",
+							color: "#1c1917",
+						})}
+					>
+						SoloDay
+					</h1>
+					<span
+						className={css({
+							color: "#57534e",
+							fontSize: "xs",
+							display: { base: "none", sm: "inline" },
+						})}
+					>
+						30秒で今日を把握
+					</span>
+				</div>
+			</header>
+
+			{/* メインコンテンツ: 今日/今週の予定表示 */}
+			<main
+				className={css({
+					width: "100%",
+					maxWidth: "2xl",
+					mx: "auto",
+					flex: "1",
+					px: { base: "4", md: "6" },
+					py: "4",
+				})}
+			>
+				<TodayWeekView />
+			</main>
+
+			{/* フッター */}
+			<footer
+				className={css({
+					py: "3",
+					textAlign: "center",
 					color: "fg.muted",
-					textAlign: "center",
-					maxWidth: "md",
+					fontSize: "xs",
+					borderTop: "1px solid",
+					borderColor: "sand.3",
 				})}
 			>
-				一人社長のための30秒カレンダーAIアシスタント。
-				今日と今週の予定を素早く把握できます。
-			</p>
-
-			{/* プレースホルダ: 後でカレンダー統合UIに置き換え */}
-			<div
-				className={css({
-					mt: "8",
-					p: "8",
-					bg: "bg.muted",
-					borderRadius: "xl",
-					textAlign: "center",
-				})}
-			>
-				<p className={css({ color: "fg.muted" })}>
-					カレンダー統合機能は今後実装予定です
-				</p>
-			</div>
+				SoloDay v1.0
+			</footer>
 		</div>
 	);
 }
