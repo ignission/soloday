@@ -116,25 +116,23 @@ export default function HomePage() {
 						width: "11",
 						height: "11",
 						borderRadius: "lg",
-						// 色: #57534e (stone-600) は背景 #faf8f5 に対してコントラスト比 7.2:1
-						color: "#57534e",
-						backgroundColor: "rgba(120, 113, 108, 0.08)",
+						// 色: #292524 (stone-800) で高コントラスト
+						color: "#292524",
+						backgroundColor: "#f5f5f4",
 						border: "1px solid",
-						borderColor: "rgba(120, 113, 108, 0.15)",
+						borderColor: "#d6d3d1",
 						transition: "all 0.2s ease",
 						_hover: {
-							// ホバー時: より濃い色でインタラクティブ感を強調
-							color: "#44403c",
-							backgroundColor: "rgba(120, 113, 108, 0.12)",
-							borderColor: "rgba(120, 113, 108, 0.25)",
+							color: "#b45309",
+							backgroundColor: "#fef3c7",
+							borderColor: "#fbbf24",
 							transform: "rotate(45deg)",
 						},
 						_focusVisible: {
-							// フォーカス時: 明確なアウトライン
-							outline: "3px solid #78716c",
+							outline: "3px solid #f59e0b",
 							outlineOffset: "2px",
-							color: "#44403c",
-							backgroundColor: "rgba(120, 113, 108, 0.12)",
+							color: "#b45309",
+							backgroundColor: "#fef3c7",
 						},
 						_active: {
 							// アクティブ時: 押下感
