@@ -187,9 +187,30 @@ export function CalendarsClientWrapper() {
 	 * カレンダーの有効/無効をトグルする
 	 */
 	const handleToggle = useCallback(
-		async (_id: CalendarId, _enabled: boolean) => {
-			// TODO: PATCH APIが実装されたら更新処理を追加
-			await refetch();
+		async (id: CalendarId, enabled: boolean) => {
+			try {
+				const response = await fetch(`/api/calendars/${id}`, {
+					method: "PATCH",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ enabled }),
+				});
+
+				if (!response.ok) {
+					const data = await response.json();
+					setNotification({
+						type: "error",
+						message: data.error?.message || "カレンダーの更新に失敗しました",
+					});
+					return;
+				}
+
+				await refetch();
+			} catch (error) {
+				setNotification({
+					type: "error",
+					message: "カレンダーの更新に失敗しました",
+				});
+			}
 		},
 		[refetch],
 	);
