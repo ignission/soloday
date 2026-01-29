@@ -4,7 +4,7 @@
  * セットアップクライアントラッパーコンポーネント
  *
  * セットアップフローのクライアントサイド状態管理を担当するコンポーネントです。
- * 3ステップ（プロバイダ選択 → APIキー入力/Ollama接続 → 完了）の遷移を管理し、
+ * 3ステップ（カレンダー設定 → AI設定 → 完了）の遷移を管理し、
  * 設定をAPIエンドポイント経由で保存します。
  *
  * @module components/setup/SetupClientWrapper
@@ -23,6 +23,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
 	ApiKeyForm,
+	CalendarSetup,
 	OllamaConnector,
 	ProviderSelector,
 	SetupComplete,
@@ -46,8 +47,8 @@ interface SetupClientWrapperProps {
  * セットアップクライアントラッパー
  *
  * セットアップフローの状態管理と遷移を担当します。
- * - ステップ1: プロバイダ選択
- * - ステップ2: APIキー入力（Claude/OpenAI）またはOllama接続
+ * - ステップ1: カレンダー設定
+ * - ステップ2: AI設定（APIキー入力またはOllama接続）
  * - ステップ3: 完了画面
  *
  * @param props - コンポーネントのProps
@@ -62,7 +63,7 @@ export function SetupClientWrapper({
 	const router = useRouter();
 
 	// 現在のステップ
-	const [step, setStep] = useState<SetupStep>("provider");
+	const [step, setStep] = useState<SetupStep>("calendar");
 
 	// 選択されたプロバイダ
 	const [selectedProvider, setSelectedProvider] = useState<LLMProvider | null>(
@@ -97,12 +98,21 @@ export function SetupClientWrapper({
 	/**
 	 * 次へ進むハンドラ
 	 *
-	 * プロバイダ選択ステップから次のステップへ進みます。
+	 * カレンダー設定ステップからAI設定ステップへ進みます。
 	 */
 	const handleNext = () => {
-		if (step === "provider" && selectedProvider) {
-			setStep("key");
+		if (step === "calendar") {
+			setStep("ai");
 		}
+	};
+
+	/**
+	 * AIステップをスキップするハンドラ
+	 *
+	 * AI設定をスキップして完了ステップへ進みます。
+	 */
+	const handleSkipAi = () => {
+		setStep("complete");
 	};
 
 	/**
@@ -192,7 +202,7 @@ export function SetupClientWrapper({
 	 * セットアップ完了後にメイン画面へ遷移します。
 	 */
 	const handleStart = () => {
-		router.push("/");
+		window.location.href = "/";
 	};
 
 	/**
@@ -200,7 +210,7 @@ export function SetupClientWrapper({
 	 *
 	 * 設定変更モードでキャンセルした場合にメイン画面へ戻ります。
 	 */
-	const handleCancel = () => {
+	const _handleCancel = () => {
 		router.push("/");
 	};
 
@@ -212,7 +222,7 @@ export function SetupClientWrapper({
 			<SetupStepper currentStep={step} />
 
 			{/* ステップコンテンツ */}
-			{step === "provider" && (
+			{step === "calendar" && (
 				<div
 					className={css({
 						display: "flex",
@@ -224,71 +234,32 @@ export function SetupClientWrapper({
 						<h2
 							className={css({ fontSize: "2xl", fontWeight: "bold", mb: "2" })}
 						>
-							AIプロバイダを選択
+							カレンダーを設定
+						</h2>
+						<p className={css({ color: "fg.muted" })}>
+							SoloDayで使用するカレンダーを連携してください
+						</p>
+					</div>
+
+					<CalendarSetup onComplete={handleNext} />
+				</div>
+			)}
+
+			{step === "ai" && (
+				<div className={css({ maxWidth: "md", mx: "auto", width: "full" })}>
+					<div className={css({ textAlign: "center", mb: "6" })}>
+						<h2
+							className={css({ fontSize: "2xl", fontWeight: "bold", mb: "2" })}
+						>
+							AIプロバイダを設定
 						</h2>
 						<p className={css({ color: "fg.muted" })}>
 							SoloDayで使用するAIプロバイダを選択してください
 						</p>
 					</div>
 
-					<ProviderSelector
-						selectedProvider={selectedProvider}
-						currentProvider={currentProvider}
-						onSelect={handleProviderSelect}
-					/>
-
-					<div
-						className={css({
-							display: "flex",
-							gap: "4",
-							justifyContent: "center",
-						})}
-					>
-						{isExistingSetup && (
-							<button
-								type="button"
-								onClick={handleCancel}
-								className={css({
-									px: "6",
-									py: "3",
-									color: "fg.muted",
-									borderRadius: "lg",
-									border: "none",
-									bg: "transparent",
-									cursor: "pointer",
-									_hover: { bg: "bg.muted" },
-								})}
-							>
-								キャンセル
-							</button>
-						)}
-						<button
-							type="button"
-							onClick={handleNext}
-							disabled={!selectedProvider}
-							className={css({
-								px: "8",
-								py: "3",
-								bg: "accent.default",
-								color: "accent.fg",
-								borderRadius: "lg",
-								fontWeight: "medium",
-								cursor: "pointer",
-								border: "none",
-								_disabled: { opacity: 0.5, cursor: "not-allowed" },
-								_hover: { bg: "accent.emphasized" },
-							})}
-						>
-							次へ
-						</button>
-					</div>
-				</div>
-			)}
-
-			{step === "key" && selectedProvider && (
-				<div className={css({ maxWidth: "md", mx: "auto", width: "full" })}>
 					{/* 上書き警告（設定変更モード時） */}
-					{isExistingSetup && (
+					{isExistingSetup && selectedProvider && (
 						<div
 							className={css({
 								p: "3",
@@ -304,14 +275,26 @@ export function SetupClientWrapper({
 						</div>
 					)}
 
-					{selectedProvider === "ollama" ? (
-						<OllamaConnector onConnected={handleOllamaConnected} />
-					) : (
-						<ApiKeyForm
-							provider={selectedProvider}
-							onValidated={handleValidated}
-							onKeyChange={setApiKeyValue}
-						/>
+					{/* プロバイダ選択 */}
+					<ProviderSelector
+						selectedProvider={selectedProvider}
+						currentProvider={currentProvider}
+						onSelect={handleProviderSelect}
+					/>
+
+					{/* APIキー入力またはOllama接続 */}
+					{selectedProvider && (
+						<div className={css({ mt: "6" })}>
+							{selectedProvider === "ollama" ? (
+								<OllamaConnector onConnected={handleOllamaConnected} />
+							) : (
+								<ApiKeyForm
+									provider={selectedProvider}
+									onValidated={handleValidated}
+									onKeyChange={setApiKeyValue}
+								/>
+							)}
+						</div>
 					)}
 
 					{/* エラーメッセージ */}
@@ -342,10 +325,36 @@ export function SetupClientWrapper({
 							設定を保存しています...
 						</div>
 					)}
+
+					{/* スキップボタン */}
+					<div
+						className={css({
+							mt: "6",
+							textAlign: "center",
+						})}
+					>
+						<button
+							type="button"
+							onClick={handleSkipAi}
+							className={css({
+								px: "6",
+								py: "2",
+								color: "fg.muted",
+								borderRadius: "lg",
+								border: "none",
+								bg: "transparent",
+								cursor: "pointer",
+								fontSize: "sm",
+								_hover: { bg: "bg.muted" },
+							})}
+						>
+							スキップして完了
+						</button>
+					</div>
 				</div>
 			)}
 
-			{step === "complete" && selectedProvider && (
+			{step === "complete" && (
 				<SetupComplete provider={selectedProvider} onStart={handleStart} />
 			)}
 		</div>

@@ -132,14 +132,18 @@ export interface SetupStatus {
 export function createSetupStatus(params: {
 	currentProvider: LLMProvider | undefined;
 	hasApiKey: boolean;
+	calendarCount: number;
 }): SetupStatus {
-	const { currentProvider, hasApiKey } = params;
+	const { currentProvider, hasApiKey, calendarCount } = params;
 
-	// セットアップ完了条件: プロバイダが設定されており、かつAPIキーが存在する
-	// ただし、Ollamaの場合はAPIキーが不要なので、プロバイダがollamaならAPIキー不要
-	const isComplete =
+	// セットアップ完了条件:
+	// - カレンダーが1つ以上登録されている
+	// - または、プロバイダが設定されており、かつAPIキーが存在する（Ollamaは除く）
+	const hasCalendar = calendarCount > 0;
+	const hasValidProvider =
 		currentProvider !== undefined &&
 		(currentProvider === "ollama" || hasApiKey);
+	const isComplete = hasCalendar || hasValidProvider;
 
 	return {
 		isComplete,

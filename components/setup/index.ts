@@ -7,6 +7,7 @@
  */
 
 export { ApiKeyForm } from "./ApiKeyForm";
+export { CalendarSetup } from "./CalendarSetup";
 export { OllamaConnector } from "./OllamaConnector";
 export { ProviderCard } from "./ProviderCard";
 export { ProviderSelector } from "./ProviderSelector";

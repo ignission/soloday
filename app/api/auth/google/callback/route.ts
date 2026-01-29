@@ -61,6 +61,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 	// 認証を完了し、カレンダーを追加
 	const result = await completeGoogleAuth(code, codeVerifier);
 
+	// デバッグログ
+	if (!isOk(result)) {
+		console.error("[Google OAuth] Error:", JSON.stringify(result.error, null, 2));
+	}
+
 	// code_verifier Cookie を削除
 	const response = isOk(result)
 		? redirectToCalendarsWithSuccess()

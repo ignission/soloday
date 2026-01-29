@@ -4,13 +4,13 @@
  * SetupStepperコンポーネント
  *
  * セットアップウィザードのステップインジケータを表示するコンポーネントです。
- * 3ステップ（プロバイダ選択 → APIキー入力 → 完了）を表示します。
+ * 3ステップ（カレンダー設定 → AI設定 → 完了）を表示します。
  *
  * @module components/setup/SetupStepper
  *
  * @example
  * ```tsx
- * <SetupStepper currentStep="provider" />
+ * <SetupStepper currentStep="calendar" />
  * ```
  */
 
@@ -28,7 +28,7 @@ interface SetupStepperProps {
 /**
  * セットアップステップインジケータ
  *
- * 3ステップ（プロバイダ選択 → APIキー入力 → 完了）を表示します。
+ * 3ステップ（カレンダー設定 → AI設定 → 完了）を表示します。
  * 現在のステップがハイライトされ、完了したステップは塗りつぶされます。
  *
  * @param props - コンポーネントのProps
