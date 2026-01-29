@@ -1,6 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { TodayWeekView } from "@/components/calendar/TodayWeekView";
+import { checkSetupStatus } from "@/lib/application/setup/check-setup-status";
+import { isErr, isOk } from "@/lib/domain/shared";
+import { initializeDatabase } from "@/lib/infrastructure/db";
 import { css } from "@/styled-system/css";
 
 /**
@@ -30,10 +34,26 @@ function SettingsIcon() {
  * メイン画面
  *
  * セットアップ完了後に表示されるホーム画面です。
- * middlewareで未セットアップ時は /setup にリダイレクトされるため、
- * このページはセットアップ完了後のみ表示されます。
+ * 未セットアップ時は /setup にリダイレクトされます。
+ *
+ * Server Componentとして動作し、セットアップ状態を直接チェックします。
+ * Edge RuntimeではなくNode.js Runtimeで実行されるため、
+ * ファイルシステムアクセスやDBアクセスが可能です。
  */
-export default function HomePage() {
+export default async function HomePage() {
+	// データベースを初期化
+	const dbResult = initializeDatabase();
+	if (isErr(dbResult)) {
+		redirect("/setup");
+	}
+
+	// セットアップ状態をチェック（Node.js Runtimeで直接実行）
+	const statusResult = await checkSetupStatus();
+
+	// エラー時または未セットアップ時はセットアップ画面へリダイレクト
+	if (!isOk(statusResult) || !statusResult.value.isComplete) {
+		redirect("/setup");
+	}
 	return (
 		<div
 			className={css({
