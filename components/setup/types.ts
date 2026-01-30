@@ -78,11 +78,11 @@ export const PROVIDER_INFO: Record<LLMProvider, ProviderInfo> = {
  * セットアップステップ
  *
  * セットアップウィザードの各ステップを識別する文字列リテラル型です。
- * - `provider`: プロバイダ選択ステップ
- * - `key`: APIキー入力ステップ
+ * - `calendar`: カレンダー設定ステップ
+ * - `ai`: AI設定ステップ
  * - `complete`: セットアップ完了ステップ
  */
-export type SetupStep = "provider" | "key" | "complete";
+export type SetupStep = "calendar" | "ai" | "complete";
 
 /**
  * ステップ情報
@@ -105,11 +105,11 @@ export interface StepInfo {
  */
 export const SETUP_STEPS: readonly StepInfo[] = [
 	{
-		id: "provider",
-		label: "プロバイダ選択",
-		description: "AIプロバイダを選択",
+		id: "calendar",
+		label: "カレンダー設定",
+		description: "カレンダーを連携",
 	},
-	{ id: "key", label: "APIキー入力", description: "認証情報を設定" },
+	{ id: "ai", label: "AI設定", description: "AIプロバイダを設定" },
 	{ id: "complete", label: "完了", description: "セットアップ完了" },
 ] as const;
 

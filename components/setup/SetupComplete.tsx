@@ -30,8 +30,8 @@ import { PROVIDER_INFO } from "./types";
  * SetupCompleteコンポーネントのProps
  */
 interface SetupCompleteProps {
-	/** 選択されたプロバイダ */
-	provider: LLMProvider;
+	/** 選択されたプロバイダ（スキップ時はnull） */
+	provider: LLMProvider | null;
 	/** 開始ボタン押下時のコールバック */
 	onStart: () => void;
 	/** 自動リダイレクト秒数（デフォルト5秒） */
@@ -57,7 +57,7 @@ export function SetupComplete({
 	autoRedirectSeconds = 5,
 }: SetupCompleteProps) {
 	const [countdown, setCountdown] = useState(autoRedirectSeconds);
-	const info = PROVIDER_INFO[provider];
+	const info = provider ? PROVIDER_INFO[provider] : null;
 
 	useEffect(() => {
 		// カウントダウンが0になったら自動でonStartを呼び出し
@@ -103,30 +103,34 @@ export function SetupComplete({
 					セットアップが完了しました!
 				</h2>
 				<p className={css({ color: "fg.muted" })}>
-					{info.name} を使用する準備ができました
+					{info
+						? `${info.name} を使用する準備ができました`
+						: "SoloDayを使用する準備ができました"}
 				</p>
 			</div>
 
-			{/* 設定確認 */}
-			<div
-				className={css({
-					display: "flex",
-					alignItems: "center",
-					gap: "3",
-					p: "4",
-					bg: "bg.muted",
-					borderRadius: "lg",
-				})}
-			>
-				<Image
-					src={info.iconPath}
-					alt={info.name}
-					width={24}
-					height={24}
-					className={css({ width: "6", height: "6" })}
-				/>
-				<span className={css({ fontWeight: "medium" })}>{info.name}</span>
-			</div>
+			{/* 設定確認（プロバイダが選択されている場合のみ表示） */}
+			{info && (
+				<div
+					className={css({
+						display: "flex",
+						alignItems: "center",
+						gap: "3",
+						p: "4",
+						bg: "bg.muted",
+						borderRadius: "lg",
+					})}
+				>
+					<Image
+						src={info.iconPath}
+						alt={info.name}
+						width={24}
+						height={24}
+						className={css({ width: "6", height: "6" })}
+					/>
+					<span className={css({ fontWeight: "medium" })}>{info.name}</span>
+				</div>
+			)}
 
 			{/* ボタングループ */}
 			<div

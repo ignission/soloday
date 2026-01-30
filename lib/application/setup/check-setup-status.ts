@@ -103,6 +103,7 @@ export async function checkSetupStatus(): Promise<
 			createSetupStatus({
 				currentProvider: undefined,
 				hasApiKey: false,
+				calendarCount: 0,
 			}),
 		);
 	}
@@ -128,6 +129,7 @@ export async function checkSetupStatus(): Promise<
 		createSetupStatus({
 			currentProvider,
 			hasApiKey: hasSecretResult.value,
+			calendarCount: config.calendars.length,
 		}),
 	);
 }
