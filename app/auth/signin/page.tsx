@@ -9,6 +9,7 @@
  */
 
 import Image from "next/image";
+import Link from "next/link";
 import { signIn } from "@/auth";
 import { css } from "@/styled-system/css";
 
@@ -60,7 +61,7 @@ export default function SignInPage() {
 			>
 				{/* ミーアキャットキャラクター */}
 				<Image
-					src="/icons/meerkat-celebration.svg"
+					src="/icons/logo-256.png"
 					alt="miipa ミーアキャット"
 					width={128}
 					height={128}
@@ -121,6 +122,46 @@ export default function SignInPage() {
 						Googleでサインイン
 					</button>
 				</form>
+			</div>
+
+			{/* フッターリンク */}
+			<div
+				className={css({
+					display: "flex",
+					gap: "4",
+					mt: "4",
+				})}
+			>
+				<Link
+					href="/privacy"
+					className={css({
+						color: "fg.muted",
+						fontSize: "xs",
+						_hover: { color: "fg.default" },
+					})}
+				>
+					プライバシーポリシー
+				</Link>
+				<Link
+					href="/terms"
+					className={css({
+						color: "fg.muted",
+						fontSize: "xs",
+						_hover: { color: "fg.default" },
+					})}
+				>
+					利用規約
+				</Link>
+				<Link
+					href="/tokushoho"
+					className={css({
+						color: "fg.muted",
+						fontSize: "xs",
+						_hover: { color: "fg.default" },
+					})}
+				>
+					特商法表記
+				</Link>
 			</div>
 		</div>
 	);

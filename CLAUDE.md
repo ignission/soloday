@@ -32,8 +32,11 @@ npx biome check --write .
 # Lint & Formatチェックのみ
 npx biome check .
 
-# ビルド
+# ビルド（ローカル確認用）
 npm run build
+
+# Cloudflare Workers用ビルド＆デプロイ
+npm run build:worker && npx wrangler deploy
 ```
 
 ## 開発方針

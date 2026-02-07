@@ -87,7 +87,7 @@ export function SetupComplete({
 		>
 			{/* ミーアキャットイラスト */}
 			<Image
-				src="/icons/meerkat-celebration.svg"
+				src="/icons/logo-256.png"
 				alt="セットアップ完了"
 				width={128}
 				height={128}

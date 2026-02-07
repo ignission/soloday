@@ -47,10 +47,11 @@ export default async function HomePage() {
 	return (
 		<div
 			className={css({
-				minHeight: "100vh",
+				height: "100vh",
 				display: "flex",
 				flexDirection: "column",
 				bg: "bg.canvas",
+				overflow: "hidden",
 			})}
 		>
 			{/* ヘッダー: ロゴ・タイトル（左）、設定（右） */}
@@ -76,7 +77,7 @@ export default async function HomePage() {
 					})}
 				>
 					<Image
-						src="/icons/meerkat-celebration.svg"
+						src="/icons/logo.png"
 						alt="miipa"
 						width={40}
 						height={40}
@@ -157,6 +158,7 @@ export default async function HomePage() {
 					maxWidth: "2xl",
 					mx: "auto",
 					flex: "1",
+					overflow: "auto",
 					px: { base: "4", md: "6" },
 					py: "4",
 				})}
@@ -167,15 +169,36 @@ export default async function HomePage() {
 			{/* フッター */}
 			<footer
 				className={css({
+					display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+					gap: "4",
 					py: "3",
-					textAlign: "center",
 					color: "fg.muted",
 					fontSize: "xs",
 					borderTop: "1px solid",
 					borderColor: "border.default",
 				})}
 			>
-				miipa v1.0
+				<span>miipa v1.0</span>
+				<Link
+					href="/privacy"
+					className={css({ _hover: { color: "fg.default" } })}
+				>
+					プライバシーポリシー
+				</Link>
+				<Link
+					href="/terms"
+					className={css({ _hover: { color: "fg.default" } })}
+				>
+					利用規約
+				</Link>
+				<Link
+					href="/tokushoho"
+					className={css({ _hover: { color: "fg.default" } })}
+				>
+					特商法表記
+				</Link>
 			</footer>
 		</div>
 	);
