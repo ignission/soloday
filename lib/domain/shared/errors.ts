@@ -367,7 +367,7 @@ export type KeychainErrorCode =
  * const error: KeychainError = {
  *   code: 'KEYCHAIN_ACCESS_DENIED',
  *   message: 'Keychainへのアクセスが拒否されました',
- *   service: 'com.soloday.app',
+ *   service: 'com.miipa.app',
  * };
  * ```
  */
@@ -391,7 +391,7 @@ export interface KeychainError extends AppError {
  * @example
  * ```typescript
  * // ユーザーがKeychainアクセスを拒否した場合
- * return err(keychainAccessDenied('com.soloday.app'));
+ * return err(keychainAccessDenied('com.miipa.app'));
  * ```
  */
 export function keychainAccessDenied(
@@ -423,7 +423,7 @@ export function keychainAccessDenied(
  * ```typescript
  * const secret = await getSecret(service, key);
  * if (secret === null) {
- *   return err(keychainItemNotFound('com.soloday.app', `キー "${key}" が見つかりません`));
+ *   return err(keychainItemNotFound('com.miipa.app', `キー "${key}" が見つかりません`));
  * }
  * ```
  */
@@ -457,7 +457,7 @@ export function keychainItemNotFound(
  * try {
  *   await setSecret(service, key, value);
  * } catch (e) {
- *   return err(keychainWriteFailed('com.soloday.app', '認証情報の保存に失敗しました', e));
+ *   return err(keychainWriteFailed('com.miipa.app', '認証情報の保存に失敗しました', e));
  * }
  * ```
  */

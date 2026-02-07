@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-	title: "SoloDay",
+	title: "miipa",
 	description: "一人社長向けカレンダー統合AIアシスタント",
 	manifest: "/manifest.json",
 	themeColor: "#F59E0B",
 	appleWebApp: {
 		capable: true,
 		statusBarStyle: "default",
-		title: "SoloDay",
+		title: "miipa",
 	},
 	viewport: {
 		width: "device-width",

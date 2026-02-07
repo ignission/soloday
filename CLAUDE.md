@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## プロジェクト概要
 
-**SoloDay** - 一人社長向けカレンダー統合AIアシスタント
+**miipa** - 一人社長向けカレンダー統合AIアシスタント
 
 ミーアキャットをキャラクターとした、複数カレンダーを統合して「今日/今週の自分を30秒で把握」するCloudflare Workers上で動作するWebアプリケーション。
 
@@ -128,7 +128,7 @@ Cloudflare Workers
 ## ディレクトリ構成
 
 ```
-soloday/
+miipa/
 ├── app/
 │   ├── layout.tsx
 │   ├── page.tsx              # メイン画面
