@@ -598,9 +598,8 @@ export default function SignInPage() {
 					className={css({
 						...sectionBaseStyle,
 						display: "flex",
-						flexDirection: { base: "column", md: "row" },
+						flexDirection: "column",
 						alignItems: "center",
-						justifyContent: "space-between",
 						gap: "4",
 					})}
 				>

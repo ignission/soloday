@@ -1,7 +1,7 @@
 // miipa Service Worker
 // Cache-First戦略で静的アセットをキャッシュし、ネットワークファーストでAPIリクエストを処理
 
-var CACHE_NAME = "miipa-v1";
+var CACHE_NAME = "miipa-v2";
 
 // キャッシュ対象の静的アセットパターン
 var STATIC_EXTENSIONS = [
